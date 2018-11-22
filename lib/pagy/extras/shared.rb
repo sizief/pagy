@@ -27,4 +27,11 @@ class Pagy
     end
   end
 
+  def self.deprecate(mod, old_meth, new_meth)
+    mod.send(:define_method, old_meth) do |*args|
+      Warning.warn "WARNING: The ##{old_meth} method is deprecated and will be removed in 2.0; please use ##{new_meth} instead.\n"
+      send(new_meth, *args)
+    end
+  end
+
 end
